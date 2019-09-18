@@ -1,18 +1,48 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <b-button @click="clickMe">Add Board +</b-button>
+    <hr />
+    <ul
+      v-for='board in boards'
+      :key="board._id"
+    >
+      <li>
+        <Board :board='board' />
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import Board from '@/components/Board.vue'
+import db from '@/db/index.js'
 
 export default {
   name: 'home',
+  data: function () {
+    return {
+      boards: []
+    }
+  },
   components: {
-    HelloWorld
+    Board
+  },
+  computed: {
+
+  },
+  created () {
+
+  },
+  methods: {
+    clickMe () {
+      var doc = {
+        _id: new Date().toLocaleString(),
+        name: 'trial'
+      }
+      db.put(doc)
+      this.boards.push(doc)
+    }
   }
 }
 </script>
